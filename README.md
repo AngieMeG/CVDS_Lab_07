@@ -23,14 +23,14 @@
     3. **registrarNuevoProducto - Use su código de estudiante para evitar colisiones.**
 8. **Verifique por medio de un cliente SQL, que la información retornada por el programa coincide con la que se encuentra almacenada en base de datos.**  
     * **Ejecución**    
-    ![JDBC](./img/JDBC Ejecucion.PNG)  
+    ![JDBC](./img/JDBC-Ejecucion.PNG)  
     * **Verificación de resultados**  
         * **nombresProductosPedido**  
-        ![JDBC](./img/JDBC Ejecucion.PNG)      
+        ![Prueba1](./img/SQL-Client-P1.PNG)      
         * **valorTotalPedido**  
-        ![JDBC](./img/JDBC Ejecucion.PNG)  
+        ![Prueba2](./img/SQL-Client-P2.PNG)  
         * **registrarNuevoProducto**  
-        ![JDBC](./img/JDBC Ejecucion.PNG)  
+        ![Prueba3](./img/SQL-Client-P3.PNG)  
 
 ## Sección II. - Introducción a MyBatis
 

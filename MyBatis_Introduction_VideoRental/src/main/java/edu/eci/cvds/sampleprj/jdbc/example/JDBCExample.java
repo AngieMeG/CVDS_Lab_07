@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.mysql.jdbc.Statement;
+
 /**
  *
  * @author hcadavid
@@ -34,34 +36,29 @@ public class JDBCExample {
     
     public static void main(String args[]){
         try {
-            String url="jdbc:mysql://HOST:3306/BD";
-            String driver="com.mysql.jdbc.Driver";
-            String user="USER";
-            String pwd="PWD";
-                        
+            String url = "jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba";
+            String driver = "com.mysql.jdbc.Driver";
+            String user = "bdprueba";
+            String pwd = "prueba2019";
+
             Class.forName(driver);
-            Connection con=DriverManager.getConnection(url,user,pwd);
+            Connection con = DriverManager.getConnection(url,user,pwd);
             con.setAutoCommit(false);
-                 
             
             System.out.println("Valor total pedido 1:"+valorTotalPedido(con, 1));
             
-            List<String> prodsPedido=nombresProductosPedido(con, 1);
-            
-            
+            List<String> prodsPedido = nombresProductosPedido(con, 1);
             System.out.println("Productos del pedido 1:");
             System.out.println("-----------------------");
             for (String nomprod:prodsPedido){
                 System.out.println(nomprod);
             }
+            
             System.out.println("-----------------------");
             
-            
-            int suCodigoECI=20134423;
-            registrarNuevoProducto(con, suCodigoECI, "SU NOMBRE", 99999999);            
-            con.commit();
-                        
-            
+            int suCodigoECI = 2160192;
+            registrarNuevoProducto(con, suCodigoECI, "Angie Medina", 99999999);            
+            con.commit();            
             con.close();
                                    
         } catch (ClassNotFoundException | SQLException ex) {
@@ -80,9 +77,19 @@ public class JDBCExample {
      * @throws SQLException 
      */
     public static void registrarNuevoProducto(Connection con, int codigo, String nombre,int precio) throws SQLException{
-        //Crear preparedStatement
-        //Asignar parámetros
-        //usar 'execute'
+        String query = "INSERT INTO ORD_PRODUCTOS VALUES (?,?,?)";
+        try{
+            //Crear preparedStatement
+            PreparedStatement statement = con.prepareStatement(query);
+            //Asignar parámetros
+            statement.setInt(1,codigo);
+            statement.setString(2,nombre);
+            statement.setInt(3,precio);
+            //usar 'execute'
+            statement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
 
         
         con.commit();
@@ -97,13 +104,25 @@ public class JDBCExample {
      */
     public static List<String> nombresProductosPedido(Connection con, int codigoPedido){
         List<String> np=new LinkedList<>();
-        
-        //Crear prepared statement
-        //asignar parámetros
-        //usar executeQuery
-        //Sacar resultados del ResultSet
-        //Llenar la lista y retornarla
-        
+        String query = "SELECT nombre " + 
+                       "FROM ORD_PRODUCTOS INNER JOIN ORD_DETALLE_PEDIDO dp ON (codigo = producto_fk)" + 
+                       "WHERE pedido_fk = ?";
+
+        try{
+            //Crear prepared statement
+            PreparedStatement statement = con.prepareStatement(query);
+            //asignar parámetros
+            statement.setInt(1, codigoPedido);
+            //usar executeQuery
+            ResultSet result = statement.executeQuery();
+            //Sacar resultados del ResultSet
+            while (result.next()){
+                //Llenar la lista y retornarla
+                np.add(result.getString("nombre"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         return np;
     }
 
@@ -115,17 +134,24 @@ public class JDBCExample {
      * @return el costo total del pedido (suma de: cantidades*precios)
      */
     public static int valorTotalPedido(Connection con, int codigoPedido){
-        
-        //Crear prepared statement
-        //asignar parámetros
-        //usar executeQuery
-        //Sacar resultado del ResultSet
-        
-        return 0;
+        int total = 0;
+        String query = "SELECT SUM(cantidad*precio) " + 
+                       "FROM ORD_DETALLE_PEDIDO INNER JOIN ORD_PRODUCTOS ON (codigo = producto_fk)"+
+                       "WHERE pedido_fk = ?";
+        try{
+            //Crear prepared statement
+            PreparedStatement statement = con.prepareStatement(query);
+            //asignar parámetros
+            statement.setInt(1, codigoPedido);
+            //usar executeQuery
+            ResultSet result = statement.executeQuery();
+            //Sacar resultado del ResultSet
+            while(result.next()){
+                total = result.getInt(1);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return total;
     }
-    
-
-    
-    
-    
 }

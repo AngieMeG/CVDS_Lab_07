@@ -137,7 +137,8 @@ En este laboratorio se utilizará un 'framework' de persistencia. La base de dat
 	System.out.println(cm.consultarClientes()));
 	...
 	```
-
+    
+    ![ConsultarClientes](./img/ConsultarClientes.PNG)
 
 ## Parte II (para el Miércoles)
 
@@ -155,10 +156,11 @@ En este laboratorio se utilizará un 'framework' de persistencia. La base de dat
 	* Al XML (\<select>, \<insert>, etc) asociado al método del mapper, agregue la propiedad _parameterType="map"_ .
 	* Una vez hecho esto, podrá hacer referencia dentro de la sentencia SQL a este parámetro a través de: #{idcli}
 
-2. Verifique el funcionamiento haciendo una consulta a través del 'mapper' desde MyBatisExample.
+2. Verifique el funcionamiento haciendo una consulta a través del 'mapper' desde MyBatisExample.  
+![ConsultarCliente](./img/ConsultarCliente.PNG)
 
-3. Configure en el XML correspondiente, la operación agregarItemRentadoACliente. Verifique el funcionamiento haciendo una consulta a través del 'mapper' desde MyBatisExample.
-
+3. Configure en el XML correspondiente, la operación agregarItemRentadoACliente. Verifique el funcionamiento haciendo una consulta a través del 'mapper' desde MyBatisExample.  
+![ConsultarAntesDespues](./img/ConsultaAntesDespues.PNG)
 4. Configure en el XML correspondiente (en este caso ItemMapper.xml) la operación 'insertarItem(Item it). Para este tenga en cuenta:
 	* Al igual que en en los dos casos anteriores, el query estará basado en los parámetros ingresados (en este caso, un objeto Item). En este caso, al hacer uso de la anotación @Param, la consulta SQL se podrá componer con los atributos de dicho objeto. Por ejemplo, si al paramétro se le da como nombre ("item"): __insertarItem(@Param("item")Item it)__, en el query se podría usar #{item.id}, #{item.nombre}, #{item.descripcion}, etc. Verifique el funcionamiento haciendo una consulta a través del 'mapper' desde MyBatisExample.
 	

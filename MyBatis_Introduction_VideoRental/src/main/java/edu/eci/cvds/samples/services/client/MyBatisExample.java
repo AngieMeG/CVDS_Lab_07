@@ -20,6 +20,7 @@ package edu.eci.cvds.samples.services.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.sql.SQLException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -71,6 +72,9 @@ public class MyBatisExample {
         int documentoPrueba = -1874919427;
         System.out.println("\n--------------------------- CONSULTAR CLIENTE DOCUMENTO = " + documentoPrueba + " ---------------------------");
         System.out.println(cm.consultarCliente(documentoPrueba));
+
+        /* INSERCION AL CLIENTE 9819381 EL ITEM 2132735 */
+        //cm.agregarItemRentadoACliente(346774, 1, Date.valueOf("2021-03-15"), Date.valueOf("2021-03-18"));
 
         sqlss.commit();
         sqlss.close();
